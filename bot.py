@@ -1,20 +1,24 @@
 import os
 import asyncio
 import time
+from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.types import InputMediaPhoto, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 import db as dbmod
 
+# Load environment variables
+load_dotenv()
+
 # ==========================================
-# 📋 DIRECT CONFIGURATION (No .env file required)
+# 📋 CONFIGURATION
 # ==========================================
-BOT_TOKEN = "8529228017:AAGJlXe8dy7bNveFnEsAt2TkC5pom72-jt0"
-CHANNEL_ID = -1004338526659  # Added negative sign and prefix for private channels
-ADMIN_ID = 7856418550
-MEDIA_GROUP_DELAY = 3.5      # Gives slow connections enough time to group photos perfectly
-DB_PATH = "bot.db"
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8529228017:AAGJlXe8dy7bNveFnEsAt2TkC5pom72-jt0")
+CHANNEL_ID = int(os.getenv("CHANNEL_ID", "-1004338526659"))
+ADMIN_ID = int(os.getenv("ADMIN_ID", "7856418550"))
+MEDIA_GROUP_DELAY = float(os.getenv("MEDIA_GROUP_DELAY", "3.5"))
+DB_PATH = os.getenv("DB_PATH", "bot.db")
 # ==========================================
 
 if not BOT_TOKEN or "AAGJlXe" not in BOT_TOKEN:
