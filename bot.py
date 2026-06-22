@@ -259,7 +259,7 @@ dp.message.register(media_handler, F.photo | F.video)
 
 async def main():
     try:
-        print('🚀 Bot core is running smoothly without environment dependencies...')
+        print('Bot core is running smoothly without environment dependencies...')
         await dp.start_polling(bot)
     finally:
         await bot.session.close()
