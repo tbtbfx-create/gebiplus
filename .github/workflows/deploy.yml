@@ -1,0 +1,31 @@
+name: Deploy to VPS via SSH
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          script: |
+            set -e
+            mkdir -p ${{ secrets.REMOTE_DIR }}
+            if [ -d "${{ secrets.REMOTE_DIR }}/.git" ]; then
+              cd ${{ secrets.REMOTE_DIR }} && git pull
+            else
+              git clone https://github.com/${{ github.repository }} ${{ secrets.REMOTE_DIR }}
+            fi
+            cd ${{ secrets.REMOTE_DIR }}
+            docker compose pull || true
+            docker compose up -d --build

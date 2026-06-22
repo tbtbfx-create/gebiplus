@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  telegram-bot:
+    build: .
+    restart: always
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - CHANNEL_ID=${CHANNEL_ID}
+      - ADMIN_ID=${ADMIN_ID}
+      - MEDIA_GROUP_DELAY=${MEDIA_GROUP_DELAY}
+      - DB_PATH=/data/bot.db
+    volumes:
+      - ./data:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
